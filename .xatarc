@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Aniket-Dey-s-workspace-t0b3rv.us-east-1.xata.sh/db/PixelRec",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
