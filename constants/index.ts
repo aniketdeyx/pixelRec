@@ -44,3 +44,6 @@ export const sampleVideos = [
     duration: 950,
   }
 ]
+
+export const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500 MB
+export const MAX_THUMBNAIL_SIZE = 10 * 1024 * 1024; // 5 MB

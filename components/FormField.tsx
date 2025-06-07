@@ -24,8 +24,8 @@ const FormField = ({
   options = [],
 }: FormFieldProps) => {
   return (
-    <div className="flex flex-col mb-4">
-      <label htmlFor={id} className="mb-1 font-medium text-gray-700">
+    <div className="flex flex-col mt-8">
+      <label htmlFor={id} className="mb-1 text-sm font-medium text-gray-700">
         {label}
       </label>
 
@@ -36,7 +36,7 @@ const FormField = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="border border-gray-300 resize-none h-[25vh] rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-zinc-800"
+          className="border border-gray-300 resize-none h-[10vh] rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-zinc-800"
         />
       ) : as === 'select' ? (
         <select
