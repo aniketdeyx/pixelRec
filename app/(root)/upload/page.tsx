@@ -20,7 +20,7 @@ export default function UploadVideoFormFields() {
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [duration, setDuration] = useState<number | null>(null);
 
-  const [formState, formAction] = useActionState(uploadVideoAction, {
+  const [formState, formAction, isPending] = useActionState(uploadVideoAction, {
     errors: {},
   });
 
@@ -109,7 +109,7 @@ export default function UploadVideoFormFields() {
 
       <div className="pt-4">
         <Button type="submit" className="w-full">
-          Submit Video
+          {isPending ? "Uploading..." : "Upload Video"}
         </Button>
       </div>
     </form>

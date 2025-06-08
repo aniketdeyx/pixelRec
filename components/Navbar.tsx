@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import LoginModal from './LoginModal'
+import { Button } from './ui/button'
 
 const Navbar = () => {
   const [showLoginModal, setShowLoginModal] = React.useState(false)
@@ -23,22 +24,22 @@ const Navbar = () => {
         {/* Right Side */}
         {user ? (
           <figure className="flex gap-4 items-center">
-            <button
+            <Button
               onClick={() => router.push(`/profile/${12}`)}
               className="text-sm text-gray-700 hover:underline"
             >
               Profile
-            </button>
-            <button className="text-sm text-red-500">Logout</button>
+            </Button>
+            <Button className="text-sm text-red-500">Logout</Button>
           </figure>
         ) : (
           <>
-            <button
+            <Button
               className="bg-black text-white px-4  rounded"
               onClick={() => setShowLoginModal(true)}
             >
               Sign In
-            </button>
+            </Button>
             <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
           </>
         )}

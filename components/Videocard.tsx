@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { EyeIcon } from 'lucide-react'
+import { Button } from './ui/button'
 
 interface VideoCardProps {
     id: string,
@@ -26,9 +27,12 @@ const Videocard = ({ id, title, thumbnail, userImg, username, visibility, views,
                     alt="thumbnail"
                     className="rounded-xl mx-auto h-[20vh] "
                 />
-                {duration && (
-                    <div className="duration absolute top-38 right-4 lg:top-33 lg:right-4 bg-gray-700 text-sm px-2 py-1 text-white">{Math.ceil(duration / 60)}min</div>
+                {duration !== null && (
+                    <div className="duration absolute top-38 right-4 lg:top-33 lg:right-4 bg-gray-700 text-sm px-2 py-1 text-white">
+                        {`${Math.floor(duration! / 60)}:${(Math.floor(duration! % 60)).toString().padStart(2, '0')}`}
+                    </div>
                 )}
+
                 <article>
                     <div className='flex items-center justify-between'>
                         <figure className='flex items-center gap-2'>
@@ -63,7 +67,7 @@ const Videocard = ({ id, title, thumbnail, userImg, username, visibility, views,
                         </span>
                     </h2>
                 </article>
-                <button className="copy-btn">
+                <Button className="copy-btn">
                     {/* <Image
           src={
             copied ? "/assets/icons/checkmark.svg" : "/assets/icons/link.svg"
@@ -72,7 +76,7 @@ const Videocard = ({ id, title, thumbnail, userImg, username, visibility, views,
           width={18}
           height={18}
         /> */}
-                </button>
+                </Button>
 
             </Link>
         </div>
