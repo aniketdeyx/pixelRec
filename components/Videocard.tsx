@@ -18,14 +18,14 @@ interface VideoCardProps {
 
 const Videocard = ({ id, title, thumbnail, userImg, username, visibility, views, createdAt, duration }: VideoCardProps) => {
     return (
-        <div className='lg:max-w-[26vw]'>
+        <div className='lg:max-w-[26vw] min-h-0'>
             <Link href={`/video/${id}`} className="flex relative flex-col gap-2 p-2 rounded-2xl bg-white shadow-md ">
                 <Image
                     src={thumbnail}
                     width={320}
                     height={160}
                     alt="thumbnail"
-                    className="rounded-xl mx-auto h-[20vh] "
+                    className="rounded-xl mx-auto h-[20vh] object-cover aspect-video"
                 />
                 {duration !== null && (
                     <div className="duration absolute top-38 right-4 lg:top-33 lg:right-4 bg-gray-700 text-sm px-2 py-1 text-white">

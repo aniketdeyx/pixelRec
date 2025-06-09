@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Search } from 'lucide-react'
 import Dropdown from './Dropdown';
 import { Button } from './ui/button';
+import RecordScreen from './RecordScreen';
 
 interface SharedHeaderProps {
     subHeader: string;
@@ -39,9 +40,7 @@ const Header = ({ subHeader, title, userImg }: SharedHeaderProps) => {
                     <Link href="/upload">
                         <Button className='bg-blue-800 text-white'>Upload a video</Button>
                     </Link>
-                    <Link href="/upload">
-                        <Button className='bg-blue-700 text-white'>Record Video</Button>
-                    </Link>
+                    <RecordScreen />
                 </div>
             </div>
             <div className="relative mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
