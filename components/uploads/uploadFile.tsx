@@ -27,6 +27,7 @@ export async function uploadFile(file: File) {
       token,
       expire,
     });
+    console.log("Upload response:", res);
 
     return { url: res.url, isVideo: file.type.startsWith("video") };
   } catch (error) {
@@ -67,6 +68,7 @@ export default function Upload({
 
       if (isVideo && setVideoUrl && url) {
         setVideoUrl(url);
+        console.log("Video uploaded successfully:", url);
 
         if (setDuration) {
           const tempVideo = document.createElement("video");

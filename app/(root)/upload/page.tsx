@@ -1,4 +1,5 @@
 "use client";
+import { uploadFile } from "@/components/uploads/uploadFile";
 
 import { uploadVideoAction } from "@/actions/upload";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import Upload from "@/components/uploads/uploadFile"; // Your Upload component
 import { useActionState, useEffect, useState } from "react";
+import { Video } from "@imagekit/next";
 
 export default function UploadVideoFormFields() {
   const [videoUrl, setVideoUrl] = useState("");
@@ -24,27 +26,32 @@ export default function UploadVideoFormFields() {
     errors: {},
   });
 
-  useEffect(() => {
-    // Load recorded video from sessionStorage, convert to File, and set video URL and duration automatically
-    const checkForRecordedVideo = async () => {
-      try {
-        const storedData = sessionStorage.getItem("recordedVideo");
-        if (storedData) {
-          const { url, name, type, duration } = JSON.parse(storedData);
-          const blob = await fetch(url).then((res) => res.blob());
-          const file = new File([blob], name, { type, lastModified: Date.now() });
+ useEffect(() => {
+  const checkForRecordedVideo = async () => {
+    try {
+      const storedData = sessionStorage.getItem("recordedVideo");
 
-          // Upload the file using the same Upload logic (we’ll create a helper for this)
-          const { url: uploadedUrl } = await uploadFile(file);
-          uploadedUrl && setVideoUrl(uploadedUrl);
-          setDuration(duration); // from stored metadata
-        }
-      } catch (error) {
-        console.error("Error retrieving recorded video:", error);
+      // Don't re-upload if already previewing one
+      if (storedData && !videoUrl) {
+        const { url, name, type, duration } = JSON.parse(storedData);
+        const blob = await fetch(url).then((res) => res.blob());
+        const file = new File([blob], name, { type, lastModified: Date.now() });
+
+        // Upload once
+        const { url: uploadedUrl } = await uploadFile(file);
+        const finalUrl = `${uploadedUrl}/ik-video.mp4`;
+
+        setVideoUrl(finalUrl);
+        setDuration(duration); // from stored metadata
       }
-    };
-    checkForRecordedVideo();
-  }, []);
+    } catch (error) {
+      console.error("Error retrieving recorded video:", error);
+    }
+  };
+
+  checkForRecordedVideo();
+}, [videoUrl]); // ✅ run only if no existing videoUrl
+
 
   return (
     <form
@@ -150,4 +157,3 @@ export default function UploadVideoFormFields() {
 }
 
 // IMPORT uploadFile helper here at the top
-import { uploadFile } from "@/components/uploads/uploadFile";

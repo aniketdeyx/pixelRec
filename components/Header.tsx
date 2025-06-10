@@ -38,7 +38,7 @@ const Header = ({ subHeader, title, userImg }: SharedHeaderProps) => {
 
                 <div className='flex gap-2 mt-5 lg:mt-0'>
                     <Link href="/upload">
-                        <Button className='bg-blue-800 text-white'>Upload a video</Button>
+                        <Button className='bg-[#5271FF] text-white'>Upload a video</Button>
                     </Link>
                     <RecordScreen />
                 </div>
