@@ -12,8 +12,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import Upload from "@/components/uploads/upload";
-import { useActionState, useState } from "react";
+import Upload from "@/components/uploads/uploadFile"; // Your Upload component
+import { useActionState, useEffect, useState } from "react";
 
 export default function UploadVideoFormFields() {
   const [videoUrl, setVideoUrl] = useState("");
@@ -23,6 +23,28 @@ export default function UploadVideoFormFields() {
   const [formState, formAction, isPending] = useActionState(uploadVideoAction, {
     errors: {},
   });
+
+  useEffect(() => {
+    // Load recorded video from sessionStorage, convert to File, and set video URL and duration automatically
+    const checkForRecordedVideo = async () => {
+      try {
+        const storedData = sessionStorage.getItem("recordedVideo");
+        if (storedData) {
+          const { url, name, type, duration } = JSON.parse(storedData);
+          const blob = await fetch(url).then((res) => res.blob());
+          const file = new File([blob], name, { type, lastModified: Date.now() });
+
+          // Upload the file using the same Upload logic (we’ll create a helper for this)
+          const { url: uploadedUrl } = await uploadFile(file);
+          uploadedUrl && setVideoUrl(uploadedUrl);
+          setDuration(duration); // from stored metadata
+        }
+      } catch (error) {
+        console.error("Error retrieving recorded video:", error);
+      }
+    };
+    checkForRecordedVideo();
+  }, []);
 
   return (
     <form
@@ -35,7 +57,9 @@ export default function UploadVideoFormFields() {
 
       {/* Title */}
       <div className="space-y-2">
-        <Label htmlFor="title" className="text-base">Title</Label>
+        <Label htmlFor="title" className="text-base">
+          Title
+        </Label>
         <Input id="title" name="title" placeholder="Enter title" />
         {formState.errors?.title && (
           <p className="text-sm text-red-500">{formState.errors.title[0]}</p>
@@ -44,7 +68,9 @@ export default function UploadVideoFormFields() {
 
       {/* Description */}
       <div className="space-y-2">
-        <Label htmlFor="description" className="text-base">Description</Label>
+        <Label htmlFor="description" className="text-base">
+          Description
+        </Label>
         <Textarea
           id="description"
           name="description"
@@ -58,14 +84,16 @@ export default function UploadVideoFormFields() {
 
       {/* Visibility */}
       <div className="space-y-2 bg-white">
-        <Label htmlFor="visibility" className="text-base">Visibility</Label>
+        <Label htmlFor="visibility" className="text-base">
+          Visibility
+        </Label>
         <Select name="visibility">
           <SelectTrigger>
             <SelectValue placeholder="Choose visibility" />
           </SelectTrigger>
           <SelectContent className="bg-white">
-            <SelectItem className="" value="public">Public</SelectItem>
-            <SelectItem className="" value="private">Private</SelectItem>
+            <SelectItem value="public">Public</SelectItem>
+            <SelectItem value="private">Private</SelectItem>
           </SelectContent>
         </Select>
         {formState.errors?.visibility && (
@@ -77,25 +105,31 @@ export default function UploadVideoFormFields() {
       <div className="space-y-2">
         <Label className="text-base">Upload Video</Label>
         <Upload setVideoUrl={setVideoUrl} setDuration={setDuration} />
+        {videoUrl && (
+          <video
+            src={videoUrl}
+            controls
+            className="w-full rounded-lg border border-gray-300"
+          />
+        )}
         <input type="hidden" name="videoUrl" value={videoUrl} />
         <input type="hidden" name="duration" value={duration ?? ""} />
-        {formState.errors?.videoUrl && (
-          <p className="text-sm text-red-500">{formState.errors.videoUrl[0]}</p>
-        )}
-        {formState.errors?.duration && (
-          <p className="text-sm text-red-500">{formState.errors.duration[0]}</p>
-        )}
       </div>
 
       {/* Upload Thumbnail */}
       <div className="space-y-2">
         <Label className="text-base">Upload Thumbnail</Label>
         <Upload setThumbnailUrl={setThumbnailUrl} />
-        <input type="hidden" name="thumbnailUrl" value={thumbnailUrl} />
-        {formState.errors?.thumbnailUrl && (
-          <p className="text-sm text-red-500">{formState.errors.thumbnailUrl[0]}</p>
+        {thumbnailUrl && (
+          <img
+            src={thumbnailUrl}
+            alt="Thumbnail preview"
+            className="w-full rounded-lg border border-gray-300"
+          />
         )}
+        <input type="hidden" name="thumbnailUrl" value={thumbnailUrl} />
       </div>
+
 
       {/* Form Error */}
       {formState.errors?.formErrors && formState.errors.formErrors.length > 0 && (
@@ -106,7 +140,6 @@ export default function UploadVideoFormFields() {
         </div>
       )}
 
-
       <div className="pt-4">
         <Button type="submit" className="w-full">
           {isPending ? "Uploading..." : "Upload Video"}
@@ -115,3 +148,6 @@ export default function UploadVideoFormFields() {
     </form>
   );
 }
+
+// IMPORT uploadFile helper here at the top
+import { uploadFile } from "@/components/uploads/uploadFile";

@@ -60,6 +60,10 @@ export const getMediaStreams = async (
       .getAudioTracks()
       .forEach((track: MediaStreamTrack) => (track.enabled = true));
   }
+  navigator.mediaDevices.getDisplayMedia({ video: true })
+  .then(stream => console.log("✅ Got stream:", stream))
+  .catch(err => console.error("❌ Error:", err));
+
 
   return { displayStream, micStream, hasDisplayAudio };
 };

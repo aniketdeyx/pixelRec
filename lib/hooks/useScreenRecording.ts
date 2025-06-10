@@ -57,8 +57,10 @@ export const useScreenRecording = () => {
 
   const startRecording = async (withMic = true) => {
     try {
-      stopRecording();
-
+      if (mediaRecorderRef.current?.state === "recording") {
+        console.warn("Recording is already in progress.");
+        return false;
+      }
       const { displayStream, micStream, hasDisplayAudio } =
         await getMediaStreams(withMic);
       const combinedStream = new MediaStream() as ExtendedMediaStream;
@@ -102,6 +104,10 @@ export const useScreenRecording = () => {
   };
 
   const stopRecording = () => {
+     const recorder = mediaRecorderRef.current;
+  if (recorder && recorder.state === "recording") {
+    recorder.stop();
+  }
     cleanupRecording(
       mediaRecorderRef.current,
       streamRef.current,

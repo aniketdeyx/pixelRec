@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { useScreenRecording } from "@/lib/hooks/useScreenRecording";
 import { X } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { is } from "drizzle-orm";
 
 const RecordScreen = () => {
   const router = useRouter();
@@ -45,6 +46,7 @@ const RecordScreen = () => {
 
   const handleStart = async () => {
     await startRecording(true);
+
   };
 
   const recordAgain = async () => {
@@ -63,8 +65,10 @@ const RecordScreen = () => {
       </Button>
 
       {isOpen && (
-        <div onClick={closeModal} className="fixed inset-0 z-50 bg-white/10 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white w-full max-w-2xl p-6 rounded-lg shadow-lg relative">
+        <div onClick={() => {
+          if (!isRecording) closeModal();
+        }} className="fixed inset-0 z-50 bg-white/10 backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+          <div onClick={(e) => e.stopPropagation()}  className="bg-white w-full max-w-2xl p-6 rounded-lg shadow-lg relative">
 
             <h2 className="text-xl font-semibold mb-4">Screen Recorder</h2>
             <Button onClick={closeModal} className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
@@ -84,7 +88,6 @@ const RecordScreen = () => {
               )}
             </section>
 
-            {/* Actions */}
             <div className="flex flex-wrap gap-3 justify-end">
               {!isRecording && !recordedVideoUrl && (
                 <Button onClick={handleStart} className="bg-green-600 text-white">
