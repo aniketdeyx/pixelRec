@@ -49,10 +49,10 @@ export const verification = pgTable("verification", {
 
 export const videos = pgTable("videos", {
   id: uuid("id").primaryKey().defaultRandom().unique(),
+  videoId: text("video_id").notNull(),
   title: text("title").notNull(),
   description: text("description").notNull(),
   videoUrl: text("video_url").notNull(),
-  thumbnailUrl: text("thumbnail_url").notNull(),
   visibility: text("visibility").$type<"public" | "private">().notNull(),
   userId: text("user_id")
     .notNull()

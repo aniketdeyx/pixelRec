@@ -35,7 +35,7 @@ const Navbar = () => {
         ) : (
           <>
             <Button
-              className="bg-black text-white px-4  rounded"
+              className="bg-[#5271FF] text-white px-4  rounded"
               onClick={() => setShowLoginModal(true)}
             >
               Sign In

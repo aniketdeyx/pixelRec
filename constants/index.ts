@@ -1,3 +1,5 @@
+import {Settings2, Scissors, Share2Icon, CloudCogIcon, Share2} from "lucide-react"
+
 export const sampleVideos = [
   {
     id: '1',
@@ -60,3 +62,36 @@ export const DEFAULT_RECORDING_CONFIG = {
   audioBitsPerSecond: 128000,
   videoBitsPerSecond: 2500000,
 };
+
+export const featureCards = [
+  {
+    iconClass: Scissors,
+    title: "Quick Editing Tools",
+    description: "Trim recordings, add annotations, highlight mouse clicks, and more with our intuitive editor.",
+  },
+  {
+    iconClass: Settings2,
+    title: "Instant Sharing",
+    description: "Generate shareable links or download videos instantly after recording.",
+  },
+  {
+    iconClass: Share2Icon,
+    title: "Privacy Controls",
+    description: "Choose between public, private, or unlisted visibility for every recording.",
+  },
+  {
+    iconClass: CloudCogIcon,
+    title: "Cross-Platform",
+    description: "Works seamlessly on all modern browsers across Windows, macOS, and Linux.",
+  },
+  {
+    iconClass: Share2Icon,
+    title: "High Performance",
+    description: "Optimized for minimal CPU usage and smooth video capture even on low-end devices.",
+  },
+  {
+    iconClass: Share2Icon,
+    title: "Custom Branding",
+    description: "Add logos, themes, and watermarks to personalize your videos.",
+  },
+];

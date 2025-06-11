@@ -8,6 +8,10 @@ import {
   calculateRecordingDuration,
 } from "@/lib/utils";
 
+declare interface ExtendedMediaStream extends MediaStream {
+  _originalStreams?: MediaStream[];
+}
+
 declare interface BunnyRecordingState {
   isRecording: boolean;
   recordedBlob: Blob | null;
@@ -22,11 +26,6 @@ export const useScreenRecording = () => {
     recordedVideoUrl: "",
     recordingDuration: 0,
   });
-
-
- interface ExtendedMediaStream extends MediaStream {
-  _originalStreams?: MediaStream[];
-}
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<ExtendedMediaStream | null>(null);
@@ -57,10 +56,8 @@ export const useScreenRecording = () => {
 
   const startRecording = async (withMic = true) => {
     try {
-      if (mediaRecorderRef.current?.state === "recording") {
-        console.warn("Recording is already in progress.");
-        return false;
-      }
+      stopRecording();
+
       const { displayStream, micStream, hasDisplayAudio } =
         await getMediaStreams(withMic);
       const combinedStream = new MediaStream() as ExtendedMediaStream;
@@ -104,10 +101,6 @@ export const useScreenRecording = () => {
   };
 
   const stopRecording = () => {
-     const recorder = mediaRecorderRef.current;
-  if (recorder && recorder.state === "recording") {
-    recorder.stop();
-  }
     cleanupRecording(
       mediaRecorderRef.current,
       streamRef.current,

@@ -36,13 +36,13 @@ const Header = ({ subHeader, title, userImg }: SharedHeaderProps) => {
                     </div>
                 </div>
 
-                <div className='flex gap-2 mt-5 lg:mt-0'>
+                <div className='flex gap-2 mt-5  lg:mt-0'>
                     <Link href="/upload">
                         <Button className='bg-[#5271FF] text-white'>Upload a video</Button>
                     </Link>
                     <RecordScreen />
                 </div>
-            </div>
+            </div>x
             <div className="relative mt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className='lg:w-1/3 relative w-full'>
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-zinc-500">

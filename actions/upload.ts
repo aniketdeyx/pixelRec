@@ -10,8 +10,7 @@ import { headers } from "next/headers";
 import { and, eq, or, sql } from "drizzle-orm";
 import { doesTitleMatch, getOrderByClause } from "@/lib/utils";
 
-
-//Helper function to build the query for fetching videos with user details
+// Helper function to build the query for fetching videos with user details
 const buildVideoWithUserQuery = () =>
   db
     .select({
@@ -32,15 +31,13 @@ type UploadFormState = {
     formErrors?: string[];
   };
 };
+
 const videoSchema = z.object({
+  videoId: z.string().min(1, "Video ID is required"),
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   visibility: z.enum(["public", "private"]),
   videoUrl: z.string().url("Video URL must be valid"),
-  thumbnailUrl: z.preprocess(val => {
-    if (typeof val === "string" && val.trim() === "") return undefined;
-    return val;
-  }, z.string().url("Thumbnail URL must be valid").optional()),
   duration: z.preprocess(val => {
     if (typeof val === "string") {
       if (val.trim() === "") return undefined;
@@ -70,7 +67,7 @@ export async function uploadVideoAction(
   try {
     const session = await auth.api.getSession({ headers: await headers() });
     const userId = session?.user?.id;
-    console.log("User ID from session:", userId);
+
     if (!userId) {
       return {
         errors: {
@@ -79,22 +76,14 @@ export async function uploadVideoAction(
       };
     }
 
-    const { title, description, visibility, videoUrl, thumbnailUrl, duration } = data;
-    console.log("Parsed video data:", {
-      title,
-      description,
-      visibility,
-      videoUrl,
-      thumbnailUrl,
-      duration,
-    });
+    const { videoId, title, description, visibility, videoUrl, duration } = data;
 
     await db.insert(videos).values({
+      videoId,
       title,
       description: description || "",
       visibility,
       videoUrl,
-      thumbnailUrl: thumbnailUrl || "",
       userId,
       views: 0,
       duration: duration ? Math.floor(duration) : null,
@@ -102,7 +91,7 @@ export async function uploadVideoAction(
 
     revalidatePath("/");
   } catch (error) {
-    console.error("Upload error:", error); // Logs actual error
+    console.error("Upload error:", error);
 
     return {
       errors: {
@@ -116,9 +105,9 @@ export async function uploadVideoAction(
       },
     };
   }
+
   redirect("/");
 }
-
 
 export const getAllVideosAction = async (
   searchQuery: string = '',
@@ -140,7 +129,7 @@ export const getAllVideosAction = async (
       : visibilityCondition;
 
     const [{ totalCount }] = await db
-      .select({ totalCount: sql<number>`count(*)` })
+      .select({ totalCount: sql<number>`count(*)` }) // ✅ Fixed
       .from(videos)
       .where(whereConditions);
 
@@ -150,7 +139,7 @@ export const getAllVideosAction = async (
     const videoRecords = await buildVideoWithUserQuery()
       .where(whereConditions)
       .orderBy(
-        sortFilter ? getOrderByClause(sortFilter) : sql`${videos.createdAt} DESC`
+        sortFilter ? getOrderByClause(sortFilter) : sql`${videos.createdAt} DESC` // ✅ Fixed
       )
       .limit(pageSize)
       .offset((pageNumber - 1) * pageSize);
@@ -178,10 +167,9 @@ export const getAllVideosAction = async (
   }
 };
 
-
 export const getVideoByIdAction = async (id: string) => {
   const [videoRecord] = await buildVideoWithUserQuery()
-    .where(eq(videos.id, id))
-  
-    return videoRecord
-}
+    .where(eq(videos.videoId, id));
+
+  return videoRecord;
+};

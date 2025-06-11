@@ -1,15 +1,18 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { useScreenRecording } from "@/lib/hooks/useScreenRecording";
-import { Button } from "@/components/ui/button";
-import {v4 as uuidv4} from "uuid";
+import React, { useEffect, useRef, useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { useScreenRecording } from "@/lib/hooks/useScreenRecording"
+import { v4 as uuidv4 } from "uuid"
+import { useRouter } from 'next/navigation'
+import { getAllVideosAction } from "@/actions/upload"
+import VideoThumbnail from "@/components/VideoThumbnail"
 
-const RecordScreen = () => {
-  const router = useRouter();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isOpen, setIsOpen] = useState(false);
+export default function Page() {
+  const router = useRouter()
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const [videos, setVideos] = useState<{ video: any; user: any }[]>([])
 
   const {
     isRecording,
@@ -19,28 +22,36 @@ const RecordScreen = () => {
     startRecording,
     stopRecording,
     resetRecording,
-  } = useScreenRecording();
+  } = useScreenRecording()
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      const res = await getAllVideosAction()
+      setVideos(res.videos)
+    }
+    fetchVideos()
+  }, [])    
 
   const closeModal = () => {
-    resetRecording();
-    setIsOpen(false);
-  };
+    resetRecording()
+    setIsOpen(false)
+  }
 
   const handleStart = async () => {
-    await startRecording();
-  };
+    await startRecording()
+  }
 
   const recordAgain = async () => {
-    resetRecording();
-    await startRecording();
+    resetRecording()
+    await startRecording()
     if (recordedVideoUrl && videoRef.current)
-      videoRef.current.src = recordedVideoUrl;
-  };
+      videoRef.current.src = recordedVideoUrl
+  }
 
   const goToUpload = () => {
-    const videoId = uuidv4(); // Generate a unique ID for the video
-    if (!recordedBlob) return;
-    const url = URL.createObjectURL(recordedBlob);
+    const videoId = uuidv4()
+    if (!recordedBlob) return
+    const url = URL.createObjectURL(recordedBlob)
     sessionStorage.setItem(
       "recordedVideo",
       JSON.stringify({
@@ -51,26 +62,32 @@ const RecordScreen = () => {
         size: recordedBlob.size,
         duration: recordingDuration || 0,
       })
-    );
-    router.push(`/edit/${videoId}`);
-    closeModal();
-  };
+    )
+    router.push(`/edit/${videoId}`)
+    closeModal()
+  }
 
   return (
-    <div className="record">
-      <Button onClick={() => setIsOpen(true)} className="bg-[#5271FF] text-white">
-        <span className="truncate">Record a video</span>
-      </Button>
+    <div className="p-10">
+      <div className='flex justify-between items-center'>
+        <h2 className="text-2xl font-bold mb-10">Video Gallery</h2>
+        <Button className='bg-blue-400' onClick={() => setIsOpen(true)}>Record Video</Button>
+      </div>
 
+      {videos.length === 0 ? (
+        <p>No videos available.</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map(({ video, user }) => (
+            <VideoThumbnail key={video.id} video={video} user={user} />
+          ))}
+        </div>
+      )}
+
+      {/* Modal */}
       {isOpen && (
         <>
-          {/* Overlay */}
-          <div
-            className="fixed inset-0 bg-black/50 z-40"
-            onClick={closeModal}
-          />
-
-          {/* Centered Modal */}
+          <div className="fixed inset-0 bg-black/50 z-40" onClick={closeModal} />
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-xl shadow-xl w-[90%] max-w-[600px]">
               <figure className="flex justify-between items-center mb-4">
@@ -135,7 +152,5 @@ const RecordScreen = () => {
         </>
       )}
     </div>
-  );
-};
-
-export default RecordScreen;
+  )
+}
