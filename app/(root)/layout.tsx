@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 function RootLayout({ children }: { children: ReactNode }) {
     return ( 
-        <main className="mx-auto p-3 m-2 max-w-[95%]">
+        <main className="mx-auto m-4">
             <Navbar />
             {children}
         </main>

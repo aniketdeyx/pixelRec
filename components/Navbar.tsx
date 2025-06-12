@@ -15,7 +15,7 @@ const Navbar = () => {
 
   return (
     <header className="">
-      <nav className="flex items-center justify-between max-w-7xl mx-auto">
+      <nav className="flex items-center justify-between max-w-7xl px-2 mx-auto">
         {/* Logo */}
         <Link href="/" className="text-3xl font-bold text-black">
           PixelRec
@@ -38,7 +38,7 @@ const Navbar = () => {
               className="bg-[#5271FF] text-white px-4  rounded"
               onClick={() => setShowLoginModal(true)}
             >
-              Sign In
+              Sign In with Google
             </Button>
             <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
           </>
