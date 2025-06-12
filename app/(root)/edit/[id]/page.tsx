@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState, useEffect, useState } from "react";
+import React, { useActionState, useEffect, useState, startTransition } from "react";
 import RemotionPlayer from "../_components/RemotionPlayer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import {
     SelectContent,
     SelectValue,
 } from "@/components/ui/select";
-import { uploadToSupabase } from "@/actions/uploadToSupabase"; // 👈 Separate file uploader
+import { uploadToSupabase } from "@/actions/uploadToSupabase"; // File uploader
 import { uploadVideoAction } from "@/actions/upload";
 
 function Page({ params }: { params: { id: string } }) {
@@ -28,17 +28,21 @@ function Page({ params }: { params: { id: string } }) {
     });
 
     useEffect(() => {
-        const stored = sessionStorage.getItem("recordedVideo");
-        if (stored) {
-            const { url, name, type } = JSON.parse(stored);
-            fetch(url)
-                .then((res) => res.blob())
-                .then((blob) => {
-                    const file = new File([blob], name, { type });
-                    setVideoUrl(URL.createObjectURL(file));
-                    setVideoFile(file);
-                });
+        async function fetchVideo() {
+            const stored = sessionStorage.getItem("recordedVideo");
+            if (stored) {
+                const { url, name, type } = JSON.parse(stored);
+                await fetch(url)
+                    .then((res) => res.blob())
+                    .then((blob) => {
+                        const file = new File([blob], name, { type });
+                        setVideoUrl(URL.createObjectURL(file));
+                        setVideoFile(file);
+                    });
+            }
         }
+        fetchVideo();
+
     }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -49,7 +53,7 @@ function Page({ params }: { params: { id: string } }) {
             return;
         }
 
-        // 1. Upload file to Supabase
+        // Step 1: Upload file to Supabase
         const videoId = crypto.randomUUID();
         const formFile = new FormData();
         formFile.append("file", videoFile);
@@ -60,18 +64,20 @@ function Page({ params }: { params: { id: string } }) {
             alert("Failed to upload video.");
             return;
         }
-        // 👈 returns public URL
 
-        // 2. Send metadata + video URL to server action
+        // Step 2: Send metadata + video URL to server action
         const metadataForm = new FormData();
         metadataForm.append("videoId", videoId);
         metadataForm.append("title", title);
         metadataForm.append("description", description);
         metadataForm.append("visibility", visibility);
         metadataForm.append("videoUrl", uploadedUrl);
-        metadataForm.append("duration", "30"); // Optional: Replace with real value if available
+        metadataForm.append("duration", "30"); // Optional placeholder
 
-        formAction(metadataForm);
+        // ✅ Wrap formAction inside startTransition
+        startTransition(() => {
+            formAction(metadataForm);
+        });
     };
 
     return (
@@ -84,7 +90,7 @@ function Page({ params }: { params: { id: string } }) {
                 )}
             </div>
 
-            <div className="flex-1 rounded-xl h-fit p-6 shadow-md">
+            <div className="flex-1 rounded-xl h-fit p-6 shadow-md bg-white">
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     <div>
                         <Label htmlFor="title">Title</Label>

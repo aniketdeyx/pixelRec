@@ -37,6 +37,7 @@ export const useScreenRecording = () => {
     return () => {
       stopRecording();
       if (state.recordedVideoUrl) URL.revokeObjectURL(state.recordedVideoUrl);
+      if(audioContextRef.current)
       audioContextRef.current?.close().catch(console.error);
     };
   }, [state.recordedVideoUrl]);
