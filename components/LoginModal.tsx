@@ -1,36 +1,42 @@
-'use client'
-import React from 'react';
-import Image from 'next/image';
-import { authClient } from '@/lib/auth-client';
+"use client";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { X } from "lucide-react";
+import { redirect, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth-client";
+import { Router } from "next/router";
 
-const LoginModal = ({ isOpen, onClose }: Props) => {
-
-    const handleSignIn = async() => {
-        await authClient.signIn.social({
-            provider: 'google'})
-    }
-
-  if (!isOpen) return null;
+export default function LoginModal({ onClose }: { onClose: () => void }) {
+  const router = useRouter();
+  const handleLogin = async() => {
+    await authClient.signIn.social({
+          provider: 'google'
+        })
+    router.push('/gallery'); // Redirect to gallery after sign-in
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-60">
-      <div className="bg-gray-50 rounded-xl p-6 w-[90%] max-w-md h-[50%] relative">
-        <button className="absolute top-2 right-3 text-lg" onClick={onClose}>
-          ✕
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+      <div className="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative animate-fade-in">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-800"
+        >
+          <X className="w-5 h-5" />
         </button>
-        <h3 className="text-xl font-semibold mb-4">Sign in to PixelRec</h3>
-        <div onClick={handleSignIn} className="flex items-center gap-2 w-[20vw] mx-auto  justify-center border px-4 py-2 rounded-md cursor-pointer hover:bg-gray-100">
-          <Image src="/assets/images/google.svg" width={24} height={24} alt="Google" />
-          <span>Sign in with Google</span>
+
+        <h2 className="text-2xl font-semibold mb-2">Login Required</h2>
+        <p className="text-sm text-gray-600 mb-6">
+          Please sign in to continue using screen recording features.
+        </p>
+
+        <div className="flex justify-end">
+          <Button onClick={handleLogin} className="bg-[#5271FF] text-white">
+            Sign In
+          </Button>
         </div>
       </div>
     </div>
   );
-};
-
-export default LoginModal;
+}

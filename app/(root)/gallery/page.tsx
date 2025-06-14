@@ -7,12 +7,14 @@ import { v4 as uuidv4 } from "uuid"
 import { useRouter } from 'next/navigation'
 import { getAllVideosAction } from "@/actions/upload"
 import VideoThumbnail from "@/components/VideoThumbnail"
+import Footer from '@/components/Footer'
 
 export default function Page() {
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [videos, setVideos] = useState<{ video: any; user: any }[]>([])
+  const [loading, setLoading] = useState(false)
 
   const {
     isRecording,
@@ -26,11 +28,18 @@ export default function Page() {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await getAllVideosAction()
-      setVideos(res.videos)
-    }
+      setLoading(true);
+      try {
+        const res = await getAllVideosAction();
+        setVideos(res.videos);
+      } catch (err) {
+        console.error("Failed to load videos", err);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchVideos()
-  }, [])    
+  }, [])
 
   const closeModal = () => {
     resetRecording()
@@ -68,21 +77,26 @@ export default function Page() {
   }
 
   return (
-    <div className="p-10">
+    <div>
+      <div className="p-10">
       <div className='flex justify-between items-center'>
         <h2 className="text-2xl font-bold mb-10">Video Gallery</h2>
         <Button className='bg-blue-400' onClick={() => setIsOpen(true)}>Record Video</Button>
       </div>
 
-      {videos.length === 0 ? (
-        <p>No videos available.</p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map(({ video, user }) => (
-            <VideoThumbnail key={video.id} video={video} user={user} />
-          ))}
-        </div>
-      )}
+      {loading ? (
+        <p className="text-gray-500">Loading videos...</p>
+      ) :
+
+        videos.length === 0 ? (
+          <p>No videos available.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map(({ video, user }) => (
+              <VideoThumbnail key={video.id} video={video} user={user} />
+            ))}
+          </div>
+        )}
 
       {/* Modal */}
       {isOpen && (
@@ -151,6 +165,10 @@ export default function Page() {
           </div>
         </>
       )}
+      
     </div>
+    <Footer />
+    </div>
+    
   )
 }

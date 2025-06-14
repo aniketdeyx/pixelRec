@@ -95,3 +95,21 @@ export const featureCards = [
     description: "Add logos, themes, and watermarks to personalize your videos.",
   },
 ];
+
+export const howItWorks = [
+  {
+    iconClass: Scissors,
+    title: "Quick Editing Tools",
+    description: "Trim recordings, add annotations, highlight mouse clicks, and more with our intuitive editor.",
+  },
+  {
+    iconClass: Settings2,
+    title: "Instant Sharing",
+    description: "Generate shareable links or download videos instantly after recording.",
+  },
+  {
+    iconClass: Share2Icon,
+    title: "Privacy Controls",
+    description: "Choose between public, private, or unlisted visibility for every recording.",
+  },
+];

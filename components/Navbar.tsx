@@ -3,19 +3,23 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
-import LoginModal from './LoginModal'
 import { Button } from './ui/button'
+import { authClient } from '@/lib/auth-client'
 
 const Navbar = () => {
-  const [showLoginModal, setShowLoginModal] = React.useState(false)
   const router = useRouter()
-
+  const handleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: 'google'
+    })
+  router.push('/gallery'); // Redirect to home after sign-in
+  }
   // Example auth state
   const user = null// <- replace with actual user logic
 
   return (
-    <header className="">
-      <nav className="flex items-center justify-between max-w-7xl px-2 mx-auto">
+      <header className="">
+      <nav className="flex items-end pt-6 justify-between max-w-7xl px-2 mx-auto">
         {/* Logo */}
         <Link href="/" className="text-3xl font-bold text-black">
           PixelRec
@@ -35,12 +39,14 @@ const Navbar = () => {
         ) : (
           <>
             <Button
-              className="bg-[#5271FF] text-white px-4  rounded"
-              onClick={() => setShowLoginModal(true)}
+              className="bg-[#5271FF] text-white px-4 cursor-pointer rounded"
+              onClick={() => handleSignIn()}
             >
-              Sign In with Google
+              Sign In with
+              <img
+                className='bg-gray-100 rounded-full h-6 w-6'
+                src={'/assets/images/google.svg'} alt="" />
             </Button>
-            <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
           </>
         )}
       </nav>
