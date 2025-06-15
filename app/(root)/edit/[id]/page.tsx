@@ -90,54 +90,72 @@ function Page({ params }: { params: { id: string } }) {
                 )}
             </div>
 
-            <div className="flex-1 rounded-xl h-fit p-6 shadow-md bg-white">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div>
-                        <Label htmlFor="title">Title</Label>
-                        <Input
-                            id="title"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                            placeholder="Enter video title"
-                        />
-                        {formState.errors?.title && (
-                            <p className="text-red-500 text-sm">{formState.errors.title[0]}</p>
-                        )}
-                    </div>
+            <div className="flex-1 rounded-2xl bg-white shadow-lg p-8">
+  <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    
+    {/* Title Field */}
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor="title" className="font-medium text-gray-700">
+        Title
+      </Label>
+      <Input
+        id="title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+        placeholder="Enter video title"
+        className="text-sm"
+      />
+      {formState.errors?.title && (
+        <p className="text-sm text-red-500">{formState.errors.title[0]}</p>
+      )}
+    </div>
 
-                    <div>
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            placeholder="Write a short description"
-                        />
-                    </div>
+    {/* Description Field */}
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor="description" className="font-medium text-gray-700">
+        Description
+      </Label>
+      <Textarea
+        id="description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Write a short description"
+        className="text-sm min-h-[100px] resize-none"
+      />
+    </div>
 
-                    <div>
-                        <Label htmlFor="visibility">Visibility</Label>
-                        <Select value={visibility} onValueChange={(val) => setVisibility(val as any)}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Choose visibility" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="public">Public</SelectItem>
-                                <SelectItem value="private">Private</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
+    {/* Visibility Select */}
+    <div className="flex flex-col gap-1.5">
+      <Label htmlFor="visibility" className="font-medium bg-white text-gray-700">
+        Visibility
+      </Label>
+      <Select value={visibility}  onValueChange={(val) => setVisibility(val as any)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Choose visibility" />
+        </SelectTrigger>
+        <SelectContent className="bg-white">
+          <SelectItem value="public">Public</SelectItem>
+          <SelectItem value="private">Private</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
 
-                    <Button type="submit" className="bg-blue-600 text-white w-full">
-                        Upload Video
-                    </Button>
+    {/* Submit Button */}
+    <Button
+      type="submit"
+      className="bg-blue-400 hover:bg-blue-500 transition text-white w-full py-2 rounded-lg"
+    >
+      Upload Video
+    </Button>
 
-                    {formState.errors?.formErrors && (
-                        <p className="text-red-500 text-sm">{formState.errors.formErrors[0]}</p>
-                    )}
-                </form>
-            </div>
+    {/* General Form Error */}
+    {formState.errors?.formErrors && (
+      <p className="text-sm text-red-500 text-center">{formState.errors.formErrors[0]}</p>
+    )}
+  </form>
+</div>
+
         </main>
     );
 }

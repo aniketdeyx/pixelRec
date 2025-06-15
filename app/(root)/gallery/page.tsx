@@ -79,9 +79,9 @@ export default function Page() {
   return (
     <div>
       <div className="p-10">
-      <div className='flex justify-between items-center'>
-        <h2 className="text-2xl font-bold mb-10">Video Gallery</h2>
-        <Button className='bg-blue-400' onClick={() => setIsOpen(true)}>Record Video</Button>
+      <div className='flex justify-between h-20 w-[90vw] mx-auto items-center'>
+        <h2 className="text-2xl font-bold">Video Gallery</h2>
+        <Button className='bg-blue-400 cursor-pointer' onClick={() => setIsOpen(true)}>Record Video</Button>
       </div>
 
       {loading ? (
@@ -131,7 +131,7 @@ export default function Page() {
                 {!isRecording && !recordedVideoUrl && (
                   <button
                     onClick={handleStart}
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                    className="bg-blue-400 text-white cursor-pointer px-4 py-2 rounded hover:bg-blue-500"
                   >
                     Record
                   </button>

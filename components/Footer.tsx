@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-10 max-w-7xl mx-auto">
         {/* Left section with logo and description */}
         <div>
-          <h1 className="text-white text-2xl font-bold mb-4">logo</h1>
+          <h1 className="text-white text-2xl font-bold mb-4">PixelRec</h1>
           <p className="text-sm mb-6 leading-relaxed">
             The simplest way to record and <br /> share your screen with high-quality <br /> video and audio.
           </p>
