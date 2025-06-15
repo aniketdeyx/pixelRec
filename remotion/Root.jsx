@@ -2,7 +2,7 @@ import React from 'react';
 import {Composition} from 'remotion';
 import RemotionComposition from '../components/RemotionComposition';
  
-export const RemotionRoot: React.FC = () => {
+export const RemotionRoot = () => {
   return (
     <>
       <Composition
