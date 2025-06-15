@@ -16,7 +16,7 @@ import {
 import { uploadToSupabase } from "@/actions/uploadToSupabase"; // File uploader
 import { uploadVideoAction } from "@/actions/upload";
 
-function Page({ params }: { params: { id: string } }) {
+function Page() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [videoFile, setVideoFile] = useState<File | null>(null);
     const [title, setTitle] = useState("");
@@ -130,7 +130,7 @@ function Page({ params }: { params: { id: string } }) {
       <Label htmlFor="visibility" className="font-medium bg-white text-gray-700">
         Visibility
       </Label>
-      <Select value={visibility}  onValueChange={(val) => setVisibility(val as any)}>
+      <Select value={visibility}  onValueChange={(val) => setVisibility(val as "public" | "private")}>
         <SelectTrigger>
           <SelectValue placeholder="Choose visibility" />
         </SelectTrigger>

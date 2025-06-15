@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { featureCards } from '@/constants'
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { howItWorks } from "@/constants";
 import HowItWorksCard from '@/components/HowItWorksCard'
 import { authClient } from '@/lib/auth-client'
