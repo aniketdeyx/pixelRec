@@ -1,33 +1,37 @@
 import { videos } from "@/drizzle/schema";
-import { clsx, type ClassValue } from "clsx"
+import { clsx, type ClassValue } from "clsx";
 import { ilike, sql } from "drizzle-orm";
-import { twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge";
 import { DEFAULT_VIDEO_CONFIG } from "../constants/index";
 import { DEFAULT_RECORDING_CONFIG } from "../constants/index";
 
-
- interface MediaStreams {
+interface MediaStreams {
   displayStream: MediaStream;
   micStream: MediaStream | null;
   hasDisplayAudio: boolean;
 }
- interface RecordingHandlers {
+
+interface RecordingHandlers {
   onDataAvailable: (e: BlobEvent) => void;
   onStop: () => void;
 }
 
-
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
-export const doesTitleMatch = (videos: any, searchQuery: string) =>
+// ✅ Typed `videos` correctly
+export const doesTitleMatch = (
+  videoTable: typeof videos,
+  searchQuery: string
+) =>
   ilike(
-    sql`REPLACE(REPLACE(REPLACE(LOWER(${videos.title}), '-', ''), '.', ''), ' ', '')`,
+    sql`REPLACE(REPLACE(REPLACE(LOWER(${videoTable.title}), '-', ''), '.', ''), ' ', '')`,
     `%${searchQuery.replace(/[-. ]/g, "").toLowerCase()}%`
   );
 
-  export const getOrderByClause = (filter?: string) => {
+// Uses imported schema directly
+export const getOrderByClause = (filter?: string) => {
   switch (filter) {
     case "Most Viewed":
       return sql`${videos.views} DESC`;
@@ -40,8 +44,6 @@ export const doesTitleMatch = (videos: any, searchQuery: string) =>
       return sql`${videos.createdAt} DESC`;
   }
 };
-
-
 
 export const getMediaStreams = async (
   withMic: boolean
@@ -60,14 +62,9 @@ export const getMediaStreams = async (
       .getAudioTracks()
       .forEach((track: MediaStreamTrack) => (track.enabled = true));
   }
-  navigator.mediaDevices.getDisplayMedia({ video: true })
-  .then(stream => console.log("✅ Got stream:", stream))
-  .catch(err => console.error("❌ Error:", err));
-
 
   return { displayStream, micStream, hasDisplayAudio };
 };
-
 
 export const createAudioMixer = (
   ctx: AudioContext,
@@ -98,8 +95,6 @@ export const setupMediaRecorder = (stream: MediaStream) => {
     return new MediaRecorder(stream);
   }
 };
-
-
 
 export const setupRecording = (
   stream: MediaStream,

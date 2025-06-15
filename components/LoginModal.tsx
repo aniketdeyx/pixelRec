@@ -1,10 +1,9 @@
 "use client";
 
 import { X } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
-import { Router } from "next/router";
 
 export default function LoginModal({ onClose }: { onClose: () => void }) {
   const router = useRouter();

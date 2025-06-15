@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { useSession, signIn, signOut } from '@/lib/auth-client'
 import Image from 'next/image'

@@ -2,12 +2,23 @@
 
 import { useRouter } from "next/navigation";
 
+type VideoType = {
+  videoId: string;
+  videoUrl: string;
+  title: string;
+  duration?: number;
+};
+
+type UserType = {
+  name: string;
+};
+
 export default function VideoThumbnail({
   video,
   user
 }: {
-  video: any;
-  user: any;
+  video: VideoType;
+  user: UserType;
 }) {
   const router = useRouter();
 

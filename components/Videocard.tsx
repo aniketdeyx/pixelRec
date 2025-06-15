@@ -9,14 +9,13 @@ interface VideoCardProps {
     thumbnail: string,
     userImg: string,
     username: string,
-    visibility: string,
     views: number,
     title: string,
     createdAt: Date,
     duration?: number,
 }
 
-const Videocard = ({ id, title, thumbnail, userImg, username, visibility, views, createdAt, duration }: VideoCardProps) => {
+const Videocard = ({ id, title, thumbnail, userImg, username, views, createdAt, duration }: VideoCardProps) => {
     return (
         <div className='lg:max-w-[26vw] min-h-0'>
             <Link href={`/video/${id}`} className="flex relative flex-col gap-2 p-2 rounded-2xl bg-white shadow-md ">
