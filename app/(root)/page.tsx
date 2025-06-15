@@ -12,7 +12,7 @@ import { authClient } from '@/lib/auth-client'
 import LoginModal from '@/components/LoginModal'
 import Footer from '@/components/Footer'
 
-const page = () => {
+const HomePage = () => {
 
   const [showLoginModal, setShowLoginModal] = useState(false);
 
@@ -102,4 +102,4 @@ const page = () => {
   )
 }
 
-export default page
+export default HomePage
