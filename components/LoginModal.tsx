@@ -11,7 +11,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
     await authClient.signIn.social({
           provider: 'google'
         })
-    router.push('/gallery'); // Redirect to gallery after sign-in
+   router.push('/gallery'); // Redirect to gallery after sign-in
   };
 
   return (
@@ -31,7 +31,7 @@ export default function LoginModal({ onClose }: { onClose: () => void }) {
         </p>
 
         <div className="flex justify-end">
-          <Button onClick={handleLogin} className="bg-[#5271FF] text-white">
+          <Button onClick={handleLogin} className="bg-[#00b4d8] cursor-pointer text-white">
             Sign In
           </Button>
         </div>

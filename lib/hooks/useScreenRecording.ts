@@ -45,7 +45,6 @@ export const useScreenRecording = () => {
   const handleRecordingStop = () => {
     const { blob, url } = createRecordingBlob(chunksRef.current);
     const duration = calculateRecordingDuration(startTimeRef.current);
-    console.log(duration)
     setState((prev) => ({
       ...prev,
       recordedBlob: blob,

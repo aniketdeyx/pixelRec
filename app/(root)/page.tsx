@@ -19,12 +19,11 @@ const HomePage = () => {
   const handleOnClick = async () => {
     const { data: session } = await authClient.getSession();
     const user = session?.user;
-    console.log('User:', user);
     if (!user) {
       setShowLoginModal(true);
     }
     else {
-      router.push('/');
+      router.push('/gallery');
     }
   }
 
@@ -93,7 +92,7 @@ const HomePage = () => {
               }
             </div>
           </div>
-          <Button className='bg-[#00b4d8] text-white text-lg cursor-pointer mt-6 mb-7' onClick={() => router.push('/gallery')}>
+          <Button className='bg-[#48cae4] text-white text-lg mt-6 mb-7' onClick={() => router.push('/gallery')}>
             Try it out
           </Button>
         </div>

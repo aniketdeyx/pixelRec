@@ -4,7 +4,6 @@ import {getSessionCookie} from "better-auth/cookies"
 
 const protectedRoutes = [
     '/edit',
-    '/watch'
 ]
 
 export async function middleware(request: NextRequest) {
@@ -25,7 +24,6 @@ export const config = {
     matcher: [
  
         '/edit/:path*',
-        '/watch/:path*',
-        '/profile/:path*'
+      '/profile/:path*'
     ]
 };
