@@ -102,6 +102,7 @@ export default function Page() {
     const videoId = uuidv4()
     if (!recordedBlob) return
     const url = URL.createObjectURL(recordedBlob)
+    console.log(recordingDuration)
     sessionStorage.setItem(
       "recordedVideo",
       JSON.stringify({
@@ -189,13 +190,13 @@ export default function Page() {
                     <>
                       <button
                         onClick={recordAgain}
-                        className="bg-gray-200 text-black px-4 py-2 rounded hover:bg-gray-300"
+                        className="bg-gray-200 cursor-pointer text-black px-4 py-2 rounded hover:bg-gray-300"
                       >
                         Record Again
                       </button>
                       <button
                         onClick={goToUpload}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                        className="bg-green-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-700"
                       >
                         Continue to Upload
                       </button>

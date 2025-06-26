@@ -19,6 +19,7 @@ import { uploadVideoAction } from "@/actions/upload";
 function Page() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [videoFile, setVideoFile] = useState<File | null>(null);
+    const [duration, setDuration] = useState<number>(0);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [visibility, setVisibility] = useState<"public" | "private">("public");
@@ -31,13 +32,14 @@ function Page() {
         async function fetchVideo() {
             const stored = sessionStorage.getItem("recordedVideo");
             if (stored) {
-                const { url, name, type } = JSON.parse(stored);
+                const { url, name, type, duration } = JSON.parse(stored);
                 await fetch(url)
                     .then((res) => res.blob())
                     .then((blob) => {
                         const file = new File([blob], name, { type });
                         setVideoUrl(URL.createObjectURL(file));
                         setVideoFile(file);
+                        setDuration(duration || 0);
                     });
             }
         }
@@ -72,7 +74,7 @@ function Page() {
         metadataForm.append("description", description);
         metadataForm.append("visibility", visibility);
         metadataForm.append("videoUrl", uploadedUrl);
-        metadataForm.append("duration", "30"); // Optional placeholder
+        metadataForm.append("duration", duration.toString());
 
         // ✅ Wrap formAction inside startTransition
         startTransition(() => {
