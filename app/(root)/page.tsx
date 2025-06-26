@@ -24,7 +24,7 @@ const HomePage = () => {
       setShowLoginModal(true);
     }
     else{
-      router.push('/gallery');
+      router.push('/');
     }
   }
 
@@ -53,6 +53,7 @@ const HomePage = () => {
         </div>
         <div className='flex gap-4'>
           <Button onClick={handleOnClick} className='bg-[#5271FF] text-white cursor-pointer'>Start Recording</Button>
+          <Button onClick={() => router.push('/gallery')} className='bg-[#5271FF] text-white cursor-pointer'>View Gallery</Button>
         </div>
       </div>
       <div className='flex flex-col items-center gap-4 mt-20'>

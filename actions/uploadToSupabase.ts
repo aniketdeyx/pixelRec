@@ -1,13 +1,10 @@
 "use server";
 
 import { supabaseServer } from "@/lib/supabase-server";
-import { writeFile } from "fs/promises";
-import path from "path";
 
 export async function uploadToSupabase(formData: FormData) {
 
 const file = formData.get("file") as File;
-const videoId = formData.get("videoId") as string;
 
 if (!file) {
   return { error: "No file provided" };

@@ -130,4 +130,4 @@ export const createRecordingBlob = (
 };
 
 export const calculateRecordingDuration = (startTime: number | null): number =>
-  startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+   startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
