@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import {getSessionCookie} from "better-auth/cookies"
 
 const protectedRoutes = [
-    '/gallery',
     '/edit',
     '/watch'
 ]
@@ -24,7 +23,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     matcher: [
-        '/gallery/:path*',
+ 
         '/edit/:path*',
         '/watch/:path*',
         '/profile/:path*'

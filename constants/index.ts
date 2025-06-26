@@ -1,55 +1,4 @@
-import {Settings2, Scissors, Share2Icon, CloudCogIcon, Share2} from "lucide-react"
-
-export const sampleVideos = [
-  {
-    id: '1',
-    thumbnail: '/assets/images/dummy.jpeg',
-    userImg: '/assets/images/thumbnail.jpg',
-    username: 'CodeWithSam',
-    visibility: 'Public',
-    views: 15200,
-    title: 'Master React in 30 Minutes!',
-    createdAt: new Date('2024-12-01'),
-    duration: 780, // 13 minutes
-  },
-  {
-    id: '2',
-    thumbnail: '/assets/images/thumbnail.jpg',
-    userImg: '/assets/images/thumbnail.jpg',
-    username: 'DevNinja',
-    visibility: 'Unlisted',
-    views: 3400,
-    title: 'Next.js 14 Routing Explained',
-    createdAt: new Date('2025-01-10'),
-    duration: 420,
-  },
-  {
-    id: '3',
-    thumbnail: '/assets/images/thumbnail.jpg',
-    userImg: '/assets/images/thumbnail.jpg',
-    username: 'TechChloe',
-    visibility: 'Private',
-    views: 790,
-    title: 'How to Use Supabase Auth in Your App',
-    createdAt: new Date('2025-02-22'),
-    duration: 290,
-  },
-  {
-    id: '4',
-    thumbnail: '/assets/images/thumbnail.jpg',
-    userImg: '/assets/images/thumbnail.jpg',
-    username: 'UXBen',
-    visibility: 'Public',
-    views: 115000,
-    title: 'Designing Clean Dashboards with Tailwind CSS',
-    createdAt: new Date('2025-03-15'),
-    duration: 950,
-  }
-]
-
-export const MAX_VIDEO_SIZE = 500 * 1024 * 1024; // 500 MB
-export const MAX_THUMBNAIL_SIZE = 10 * 1024 * 1024; // 5 MB
-
+import {Settings2, Scissors, Share2, Monitor, Zap, Palette, Play, Square, Upload} from "lucide-react"
 
 export const DEFAULT_VIDEO_CONFIG = {
   width: { ideal: 1920 },
@@ -70,27 +19,27 @@ export const featureCards = [
     description: "Trim recordings, add annotations, highlight mouse clicks, and more with our intuitive editor.",
   },
   {
-    iconClass: Settings2,
+    iconClass: Share2,
     title: "Instant Sharing",
     description: "Generate shareable links or download videos instantly after recording.",
   },
   {
-    iconClass: Share2Icon,
+    iconClass: Settings2,
     title: "Privacy Controls",
     description: "Choose between public, private, or unlisted visibility for every recording.",
   },
   {
-    iconClass: CloudCogIcon,
+    iconClass: Monitor,
     title: "Cross-Platform",
     description: "Works seamlessly on all modern browsers across Windows, macOS, and Linux.",
   },
   {
-    iconClass: Share2Icon,
+    iconClass: Zap,
     title: "High Performance",
     description: "Optimized for minimal CPU usage and smooth video capture even on low-end devices.",
   },
   {
-    iconClass: Share2Icon,
+    iconClass: Palette,
     title: "Custom Branding",
     description: "Add logos, themes, and watermarks to personalize your videos.",
   },
@@ -98,18 +47,18 @@ export const featureCards = [
 
 export const howItWorks = [
   {
-    iconClass: Scissors,
-    title: "Quick Editing Tools",
-    description: "Trim recordings, add annotations, highlight mouse clicks, and more with our intuitive editor.",
+    iconClass: Play,
+    title: "Start Recording",
+    description: "Click the record button and select your screen to start capturing your content instantly.",
   },
   {
-    iconClass: Settings2,
-    title: "Instant Sharing",
-    description: "Generate shareable links or download videos instantly after recording.",
+    iconClass: Square,
+    title: "Stop & Review",
+    description: "Stop recording when done and review your video with our built-in player.",
   },
   {
-    iconClass: Share2Icon,
-    title: "Privacy Controls",
-    description: "Choose between public, private, or unlisted visibility for every recording.",
+    iconClass: Upload,
+    title: "Edit & Share",
+    description: "Add titles, descriptions, and privacy settings, then share your video with the world.",
   },
 ];

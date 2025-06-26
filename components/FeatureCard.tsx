@@ -9,9 +9,9 @@ interface FeatureCardProps {
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ iconClass: Icon, title, description }) => {
   return (
-    <div className="feature-card bg-gray-100 p-6 rounded-lg custom-shadow transition-all">
+    <div className="feature-card bg-[#e6f6f9] p-6 rounded-lg custom-shadow transition-all">
       <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-        <div className="w-12 h-12 rounded-full flex bg-[#a4aede] items-center justify-center text-primary">
+        <div className="w-12 h-12 rounded-full flex bg-[#90e0ef] items-center justify-center text-primary">
             <Icon className="w-6 h-6 text-primary" />
         </div>
       </div>
