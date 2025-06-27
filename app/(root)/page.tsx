@@ -2,7 +2,6 @@
 
 import FeatureCard from '@/components/FeatureCard'
 import { Button } from '@/components/ui/button'
-import React from 'react'
 import { featureCards } from '@/constants'
 import { useRouter } from "next/navigation";
 import { useState } from "react";

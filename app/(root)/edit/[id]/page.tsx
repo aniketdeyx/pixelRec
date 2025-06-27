@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState, useEffect, useState, startTransition } from "react";
+import { useActionState, useEffect, useState, startTransition } from "react";
 import RemotionPlayer from "../_components/RemotionPlayer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,6 @@ import { uploadVideoAction } from "@/actions/upload";
 function Page() {
     const [videoUrl, setVideoUrl] = useState<string | null>(null);
     const [videoFile, setVideoFile] = useState<File | null>(null);
-    const [duration, setDuration] = useState<number>(0);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [visibility, setVisibility] = useState<"public" | "private">("public");
@@ -44,7 +43,6 @@ function Page() {
                         const file = new File([blob], name, { type });
                         setVideoUrl(URL.createObjectURL(file));
                         setVideoFile(file);
-                        setDuration(duration || 0);
                         setMaxDuration(duration || 0);
                         setTrimEnd(duration || 0); // Set trim end to full duration initially
                     });

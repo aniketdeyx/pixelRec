@@ -1,5 +1,3 @@
-import React from "react";
-
 interface FeatureCardProps {
   iconClass: React.ComponentType<{ className?: string }>;
   title: string;

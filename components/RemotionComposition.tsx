@@ -1,4 +1,3 @@
-import React from 'react'
 import { AbsoluteFill, Video } from 'remotion'
 
 function RemotionComposition({ videoUrl }: { videoUrl: string }) {

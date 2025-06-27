@@ -1,6 +1,6 @@
 import { getVideoByIdAction } from "@/actions/upload";
 import { notFound } from "next/navigation";
-import { Eye, Calendar, User, Play, Clock, Share } from "lucide-react";
+import { Calendar, User, Clock } from "lucide-react";
 import Image from "next/image";
 import RemotionPlayer from "../../edit/_components/RemotionPlayer";
 
@@ -60,13 +60,15 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
               {/* Video Stats */}
               <div className="flex items-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-
-                </div>
-                <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
                   <Calendar className="w-4 h-4 text-green-600" />
                   <span className="font-medium">{new Date(video.createdAt).toLocaleDateString()}</span>
                 </div>
-
+                {video.duration && (
+                  <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
+                    <Clock className="w-4 h-4 text-purple-600" />
+                    <span className="font-medium">{Math.floor(video.duration)}s</span>
+                  </div>
+                )}
                 <div className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg text-xs font-semibold uppercase tracking-wide">
                   {video.visibility}
                 </div>
