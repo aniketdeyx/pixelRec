@@ -9,6 +9,8 @@ import { getAllVideosAction } from "@/actions/upload"
 import VideoThumbnail from "@/components/VideoThumbnail"
 import Footer from '@/components/Footer'
 import { Video, Plus } from 'lucide-react'
+import { authClient } from '@/lib/auth-client'
+import LoginModal from '@/components/LoginModal'
 
 interface Video {
   id: string;
@@ -38,9 +40,23 @@ interface User {
 }
 
 export default function Page() {
+
+const [showLoginModal, setShowLoginModal] = useState(false);
+const [isOpen, setIsOpen] = useState(false);
+
+  const handleOnClick = async () => {
+    const { data: session } = await authClient.getSession();
+    const user = session?.user;
+    if (!user) {
+      setShowLoginModal(true); // Show login modal when not authenticated
+    }
+    else {
+      setIsOpen(true); // Open recording modal if user is logged in
+    }
+  }
+
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [isOpen, setIsOpen] = useState(false)
   const [videos, setVideos] = useState<{ video: Video; user: User }[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -129,13 +145,21 @@ export default function Page() {
           </div>
           <Button 
             className='bg-gradient-to-r from-[#0077b6] to-[#0096c7] hover:from-[#023e8a] hover:to-[#48cae4] cursor-pointer text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 font-semibold transform hover:-translate-y-1' 
-            onClick={() => setIsOpen(true)}
+            onClick={handleOnClick}
           >
             <Video className="w-5 h-5" />
             Record Video
           </Button>
         </div>
-
+        {showLoginModal && (
+          <LoginModal 
+            onClose={() => setShowLoginModal(false)} 
+            onLoginSuccess={() => {
+              setShowLoginModal(false);
+              setIsOpen(true); // Open recording modal after successful login
+            }}
+          />
+        )}
         {loading ? (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="relative">
@@ -160,7 +184,7 @@ export default function Page() {
               <p className="text-gray-500 mb-6">Create your first screen recording to get started</p>
               <Button 
                 className='bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 font-medium' 
-                onClick={() => setIsOpen(true)}
+                onClick={handleOnClick}
               >
                 <Plus className="w-5 h-5" />
                 Record Your First Video

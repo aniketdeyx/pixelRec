@@ -17,7 +17,7 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
         {/* Unified Video and Info Container */}
         <div className="bg-white rounded-2xl py-5 shadow-xl overflow-hidden ring-1 ring-gray-200">
           {/* Video Player Section */}
-          <div className="relative aspect-video bg-black group max-w-3xl mx-auto">
+          <div className="relative aspect-video group max-w-3xl mx-auto">
             <video
               src={video.videoUrl}
               controls
@@ -25,18 +25,14 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
               preload="metadata"
             />
             {/* Optional: Custom play button overlay when paused */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <div className="bg-black/10 rounded-full p-4">
-                <Play className="w-12 h-12 text-white/80" />
-              </div>
-            </div>
+            
           </div>
 
           {/* Video Information Section */}
           <div className="p-6 md:p-8">
             {/* Title and Action Buttons */}
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
-              <h1 className="text-2xl md:text-4xl font-bold text-gray-900 leading-tight flex-1">
+              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight flex-1">
                 {video.title}
               </h1>
               <div className="flex items-center gap-3">

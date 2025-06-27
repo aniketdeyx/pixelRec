@@ -5,13 +5,23 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
-export default function LoginModal({ onClose }: { onClose: () => void }) {
+export default function LoginModal({ onClose, onLoginSuccess }: { 
+  onClose: () => void;
+  onLoginSuccess?: () => void;
+}) {
   const router = useRouter();
   const handleLogin = async() => {
     await authClient.signIn.social({
           provider: 'google'
         })
-   router.push('/gallery'); // Redirect to gallery after sign-in
+    
+    // If there's a success callback (from gallery), call it
+    if (onLoginSuccess) {
+      onLoginSuccess();
+    } else {
+      // Otherwise redirect to gallery (from homepage)
+      router.push('/gallery');
+    }
   };
 
   return (
