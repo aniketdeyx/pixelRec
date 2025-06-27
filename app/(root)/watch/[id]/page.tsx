@@ -2,6 +2,7 @@ import { getVideoByIdAction } from "@/actions/upload";
 import { notFound } from "next/navigation";
 import { Eye, Calendar, User, Play, Clock, Share } from "lucide-react";
 import Image from "next/image";
+import RemotionPlayer from "../../edit/_components/RemotionPlayer";
 
 export default async function WatchPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -17,13 +18,8 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
         {/* Unified Video and Info Container */}
         <div className="bg-white rounded-2xl py-5 shadow-xl overflow-hidden ring-1 ring-gray-200">
           {/* Video Player Section */}
-          <div className="relative aspect-video group max-w-3xl mx-auto">
-            <video
-              src={video.videoUrl}
-              controls
-              className="w-full h-full rounded-2xl object-cover"
-              preload="metadata"
-            />
+          <div className="relative aspect-video group max-w-3xl mx-auto bg-black rounded-2xl overflow-hidden">
+            <RemotionPlayer videoUrl={video.videoUrl} duration={video.duration || undefined} />
             {/* Optional: Custom play button overlay when paused */}
             
           </div>
@@ -35,12 +31,7 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
               <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight flex-1">
                 {video.title}
               </h1>
-              <div className="flex items-center gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm font-medium">
-                  <Share className="w-4 h-4" />
-                  Share
-                </button>
-              </div>
+              
             </div>
 
             {/* Creator and Stats Row */}
@@ -69,19 +60,13 @@ export default async function WatchPage({ params }: { params: Promise<{ id: stri
               {/* Video Stats */}
               <div className="flex items-center gap-6 text-sm text-gray-600">
                 <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                  <Eye className="w-4 h-4 text-blue-600" />
-                  <span className="font-medium">{video.views.toLocaleString()} views</span>
+
                 </div>
                 <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
                   <Calendar className="w-4 h-4 text-green-600" />
                   <span className="font-medium">{new Date(video.createdAt).toLocaleDateString()}</span>
                 </div>
-                {video.duration && (
-                  <div className="flex items-center gap-2 bg-gray-50 px-3 py-2 rounded-lg">
-                    <Clock className="w-4 h-4 text-purple-600" />
-                    <span className="font-medium">{Math.floor(video.duration)}s</span>
-                  </div>
-                )}
+
                 <div className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg text-xs font-semibold uppercase tracking-wide">
                   {video.visibility}
                 </div>

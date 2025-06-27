@@ -131,7 +131,7 @@ function Page() {
                             {videoUrl ? (
                                 <div className="space-y-4">
                                     <div className="aspect-video rounded-xl overflow-hidden bg-black shadow-lg">
-                                        <RemotionPlayer videoUrl={videoUrl} />
+                                        <RemotionPlayer videoUrl={videoUrl} duration={maxDuration > 0 ? maxDuration : undefined} />
                                     </div>
                                     
                                     {/* Trim Controls */}
